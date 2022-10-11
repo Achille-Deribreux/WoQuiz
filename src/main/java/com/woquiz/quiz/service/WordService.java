@@ -1,6 +1,7 @@
 package com.woquiz.quiz.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ public class WordService {
      */
     public Word getById(Integer id){
         LOGGER.info("calling repository to find word with id: {}",id);
-        return wordRepository.findById(id).orElseThrow();
+        return wordRepository.findById(id).orElseThrow(() -> new NoSuchElementException("word with following id not found : " + id));
     }
 
     /**
