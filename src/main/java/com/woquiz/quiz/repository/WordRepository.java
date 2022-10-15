@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.woquiz.quiz.model.Word;
 
 @Repository
-public interface WordRepository extends JpaRepository<Word, Integer> {
+public interface WordRepository extends JpaRepository<Word, Integer>, CustomWordRepository {
 }

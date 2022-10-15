@@ -1,12 +1,12 @@
 package com.woquiz.quiz.service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.woquiz.exception.model.NoSuchElementException;
 import com.woquiz.quiz.dto.WordCriteria;
 import com.woquiz.quiz.model.Word;
 import com.woquiz.quiz.repository.WordRepository;
@@ -14,9 +14,9 @@ import com.woquiz.quiz.repository.WordRepository;
 @Service
 public class WordService {
 
-    private Logger LOGGER = LoggerFactory.getLogger(WordService.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(WordService.class);
 
-    private WordRepository wordRepository;
+    private final WordRepository wordRepository;
 
     public WordService(WordRepository wordRepository) {
         this.wordRepository = wordRepository;
@@ -38,7 +38,7 @@ public class WordService {
      * @return list of words that match the criteria
      */
     public List<Word> getAllByCriteria(WordCriteria wordCriteria){
-        return null;
+        return wordRepository.findByCriteria(wordCriteria);
     }
 
     /**
@@ -47,7 +47,7 @@ public class WordService {
      * @return created word with id
      */
     public Word createWord(Word word){
-        return null;
+        return wordRepository.save(word);
     }
 
     /**
@@ -65,6 +65,6 @@ public class WordService {
      * @param word you want to delete
      */
     public void deleteWord(Word word){
-
+        wordRepository.delete(word);
     }
 }
