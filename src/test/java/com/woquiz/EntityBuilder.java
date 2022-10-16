@@ -14,6 +14,5 @@ public class EntityBuilder {
                 .wordStatus(Word.WordStatus.ACITVE)
                 .level(Word.WordLevel.NEW)
                 .userId(1);
-
     }
 }

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.woquiz.exception.model.NoSuchElementException;
+import com.woquiz.quiz.UpdateWordHelper;
 import com.woquiz.quiz.dto.WordCriteria;
 import com.woquiz.quiz.model.Word;
 import com.woquiz.quiz.repository.WordRepository;
@@ -14,7 +15,7 @@ import com.woquiz.quiz.repository.WordRepository;
 @Service
 public class WordService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(WordService.class);
+    private final Logger logger = LoggerFactory.getLogger(WordService.class);
 
     private final WordRepository wordRepository;
 
@@ -28,7 +29,7 @@ public class WordService {
      * @return wanted word, based on the given id
      */
     public Word getById(Integer id){
-        LOGGER.info("calling repository to find word with id: {}",id);
+        logger.info("search in repository to find word with id: {}",id);
         return wordRepository.findById(id).orElseThrow(() -> new NoSuchElementException("word with following id not found : " + id));
     }
 
@@ -38,6 +39,7 @@ public class WordService {
      * @return list of words that match the criteria
      */
     public List<Word> getAllByCriteria(WordCriteria wordCriteria){
+        logger.info("search in repository to find words by criteria");
         return wordRepository.findByCriteria(wordCriteria);
     }
 
@@ -47,6 +49,7 @@ public class WordService {
      * @return created word with id
      */
     public Word createWord(Word word){
+        logger.info("create Word with basic Word {}" , word.getBasicWord());
         return wordRepository.save(word);
     }
 
@@ -57,7 +60,10 @@ public class WordService {
      * @return updated Word
      */
     public Word updateWord(Integer id, Word word){
-        return null;
+        logger.info("update word with id : {}" , id);
+        UpdateWordHelper helper = UpdateWordHelper.of(getById(id));
+        Word wordReadyToUpdate = helper.build(word);
+        return wordRepository.save(wordReadyToUpdate);
     }
 
     /**
@@ -65,6 +71,7 @@ public class WordService {
      * @param word you want to delete
      */
     public void deleteWord(Word word){
+        logger.info("delete word with basic word {}" , word.getBasicWord());
         wordRepository.delete(word);
     }
 }

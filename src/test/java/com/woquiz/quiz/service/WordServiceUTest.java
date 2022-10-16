@@ -75,6 +75,33 @@ public class WordServiceUTest {
 
     @Test
     @Tag("word")
+    @DisplayName("test to update a word")
+    void updateWordTest() {
+        //Given
+        Word initialWord = EntityBuilder.getWord();
+        Word body = new Word()
+                .basicWord("updated basicWord")
+                .translation("updated translation")
+                .wordStatus(Word.WordStatus.INACTIVE)
+                .level(Word.WordLevel.HARD)
+                .userId(2);
+
+        //When
+        Mockito.when(wordRepository.findById(initialWord.getId())).thenReturn(Optional.ofNullable(initialWord));
+        Mockito.when(wordRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+        Word result = wordService.updateWord(initialWord.getId(), body);
+        //Then
+        Assertions.assertEquals(initialWord.getId(),result.getId());
+        Assertions.assertEquals(body.getBasicWord(),result.getBasicWord());
+        Assertions.assertEquals(body.getTranslation(),result.getTranslation());
+        Assertions.assertEquals(body.getLevel(),result.getLevel());
+        Assertions.assertEquals(body.getStatus(),result.getStatus());
+        Assertions.assertEquals(body.getUserId(),result.getUserId());
+
+    }
+
+    @Test
+    @Tag("word")
     @DisplayName("test to delete a word")
     void deleteWordTest() {
         //Given
