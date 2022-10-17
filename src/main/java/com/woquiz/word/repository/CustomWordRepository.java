@@ -1,9 +1,9 @@
-package com.woquiz.quiz.repository;
+package com.woquiz.word.repository;
 
 import java.util.List;
 
-import com.woquiz.quiz.dto.WordCriteria;
-import com.woquiz.quiz.model.Word;
+import com.woquiz.word.dto.WordCriteria;
+import com.woquiz.word.model.Word;
 
 public interface CustomWordRepository {
 

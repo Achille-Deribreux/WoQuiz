@@ -1,4 +1,4 @@
-package com.woquiz.quiz.model;
+package com.woquiz.word.model;
 
 public class WordHistory {
 

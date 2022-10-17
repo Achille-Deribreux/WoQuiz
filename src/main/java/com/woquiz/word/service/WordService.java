@@ -1,4 +1,4 @@
-package com.woquiz.quiz.service;
+package com.woquiz.word.service;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.woquiz.exception.model.NoSuchElementException;
-import com.woquiz.quiz.UpdateWordHelper;
-import com.woquiz.quiz.dto.WordCriteria;
-import com.woquiz.quiz.model.Word;
-import com.woquiz.quiz.repository.WordRepository;
+import com.woquiz.word.UpdateWordHelper;
+import com.woquiz.word.dto.WordCriteria;
+import com.woquiz.word.model.Word;
+import com.woquiz.word.repository.WordRepository;
 
 @Service
 public class WordService {

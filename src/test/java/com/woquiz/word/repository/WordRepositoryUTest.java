@@ -1,4 +1,4 @@
-package com.woquiz.quiz.repository;
+package com.woquiz.word.repository;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,8 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.woquiz.EntityBuilder;
-import com.woquiz.quiz.dto.WordCriteria;
-import com.woquiz.quiz.model.Word;
+import com.woquiz.word.dto.WordCriteria;
+import com.woquiz.word.model.Word;
 
 @DataJpaTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)

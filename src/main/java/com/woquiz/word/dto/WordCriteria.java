@@ -1,8 +1,8 @@
-package com.woquiz.quiz.dto;
+package com.woquiz.word.dto;
 
 import java.util.List;
 
-import com.woquiz.quiz.model.Word;
+import com.woquiz.word.model.Word;
 
 public class WordCriteria {
 

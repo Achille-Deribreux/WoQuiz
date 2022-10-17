@@ -1,4 +1,4 @@
-package com.woquiz.quiz.repository;
+package com.woquiz.word.repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import com.woquiz.common.utils.BasicUtils;
-import com.woquiz.quiz.dto.WordCriteria;
-import com.woquiz.quiz.model.Word;
+import com.woquiz.word.dto.WordCriteria;
+import com.woquiz.word.model.Word;
 
 public class CustomWordRepositoryImpl implements CustomWordRepository{
 

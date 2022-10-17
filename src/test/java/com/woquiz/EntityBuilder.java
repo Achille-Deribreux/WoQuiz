@@ -1,6 +1,6 @@
 package com.woquiz;
 
-import com.woquiz.quiz.model.Word;
+import com.woquiz.word.model.Word;
 
 public class EntityBuilder {
     private EntityBuilder() {

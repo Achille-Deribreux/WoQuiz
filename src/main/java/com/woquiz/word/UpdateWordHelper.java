@@ -1,6 +1,6 @@
-package com.woquiz.quiz;
+package com.woquiz.word;
 
-import com.woquiz.quiz.model.Word;
+import com.woquiz.word.model.Word;
 
 public final class UpdateWordHelper {
     private final Word word;

@@ -1,4 +1,4 @@
-package com.woquiz.quiz.service;
+package com.woquiz.word.service;
 
 import java.util.Optional;
 
@@ -13,9 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.woquiz.EntityBuilder;
 import com.woquiz.exception.model.NoSuchElementException;
-import com.woquiz.quiz.dto.WordCriteria;
-import com.woquiz.quiz.model.Word;
-import com.woquiz.quiz.repository.WordRepository;
+import com.woquiz.word.dto.WordCriteria;
+import com.woquiz.word.model.Word;
+import com.woquiz.word.repository.WordRepository;
 
 @SpringBootTest
 public class WordServiceUTest {
