@@ -15,4 +15,14 @@ public class EntityBuilder {
                 .level(Word.WordLevel.NEW)
                 .userId(1);
     }
+
+    public static Word getAnotherWord(){
+        return new Word()
+                .id(2)
+                .basicWord("Hello World, I'm John Doe")
+                .translation("Bonjour, je suis John Doe")
+                .wordStatus(Word.WordStatus.INACTIVE)
+                .level(Word.WordLevel.EASY)
+                .userId(2);
+    }
 }

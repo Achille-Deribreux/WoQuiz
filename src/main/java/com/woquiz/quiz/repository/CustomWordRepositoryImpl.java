@@ -28,13 +28,13 @@ public class CustomWordRepositoryImpl implements CustomWordRepository{
         BasicUtils.ConditionalList<Predicate> conditionalList = BasicUtils.ConditionalList.of(new ArrayList<>());
         Root<Word> wordRoot = criteriaQuery.from(Word.class);
         conditionalList
-                .add(wordCriteria.getBasicWordContains()!=null,()->criteriaBuilder.like((criteriaBuilder.upper(wordRoot.get("BASIC_WORD"))),toLike(wordCriteria.getBasicWordContains())))
-                .add(wordCriteria.getTranslationContains()!=null,()->criteriaBuilder.like((criteriaBuilder.upper(wordRoot.get("TRANSLATION"))),toLike(wordCriteria.getTranslationContains())))
-                .add(wordCriteria.getUserId()!=null,()->criteriaBuilder.equal(wordRoot.get("USER_ID"),wordCriteria.getUserId()))
-                .add(wordCriteria.getStatus()!=null,()-> wordRoot.get("STATUS").in(wordCriteria.getStatus()))
-                .add(wordCriteria.getLevel()!=null,()-> wordRoot.get("LEVEL").in(wordCriteria.getLevel()));
+                .add(wordCriteria.getBasicWordContains()!=null,()->criteriaBuilder.like((criteriaBuilder.upper(wordRoot.get("basicWord"))),toLike(wordCriteria.getBasicWordContains().toUpperCase())))
+                .add(wordCriteria.getTranslationContains()!=null,()->criteriaBuilder.like((criteriaBuilder.upper(wordRoot.get("translation"))),toLike(wordCriteria.getTranslationContains().toUpperCase())))
+                .add(wordCriteria.getUserId()!=null,()->criteriaBuilder.equal(wordRoot.get("userId"),wordCriteria.getUserId()))
+                .add(wordCriteria.getStatus()!=null,()-> wordRoot.get("status").in(wordCriteria.getStatus()))
+                .add(wordCriteria.getLevel()!=null,()-> wordRoot.get("level").in(wordCriteria.getLevel()));
         criteriaQuery.where(conditionalList.toList().toArray(new Predicate[0]));
-        criteriaQuery.orderBy(criteriaBuilder.desc(wordRoot.get("ID")));
+        criteriaQuery.orderBy(criteriaBuilder.desc(wordRoot.get("id")));
         TypedQuery<Word> query = entityManager.createQuery(criteriaQuery);
 
         if(wordCriteria.getPageSize()!=null && wordCriteria.getPageNr()!=null)
