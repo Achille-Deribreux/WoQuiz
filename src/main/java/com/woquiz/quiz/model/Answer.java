@@ -23,7 +23,7 @@ public class Answer {
     private String answer;
 
     @Column(name = "RESULT")
-    private boolean result;
+    private boolean result = false;
 
     @Column(name = "USER_ID")
     private Integer userId;
@@ -36,12 +36,22 @@ public class Answer {
         this.id = id;
     }
 
+    public Answer id(Integer id){
+        setId(id);
+        return this;
+    }
+
     public Word getWord() {
         return word;
     }
 
     public void setWord(Word word) {
         this.word = word;
+    }
+
+    public Answer word (Word word){
+        setWord(word);
+        return this;
     }
 
     public String getAnswer() {
@@ -52,6 +62,11 @@ public class Answer {
         this.answer = answer;
     }
 
+    public Answer answer(String answer){
+        setAnswer(answer);
+        return this;
+    }
+
     public boolean isResult() {
         return result;
     }
@@ -60,11 +75,21 @@ public class Answer {
         this.result = result;
     }
 
+    public Answer result(boolean result){
+        setResult(result);
+        return this;
+    }
+
     public Integer getUserId() {
         return userId;
     }
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Answer userId(Integer userId){
+        setUserId(userId);
+        return this;
     }
 }

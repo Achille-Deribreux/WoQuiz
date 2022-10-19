@@ -3,16 +3,21 @@ package com.woquiz.quiz.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.woquiz.quiz.dto.AnswerDto;
+import com.woquiz.quiz.model.Answer;
 import com.woquiz.quiz.model.Quiz;
 import com.woquiz.quiz.repository.QuizRepository;
 import com.woquiz.word.dto.WordCriteria;
 import com.woquiz.word.model.Word;
+import com.woquiz.word.model.WordHistory;
+import com.woquiz.word.repository.WordHistoryRepository;
 import com.woquiz.word.service.WordService;
 
 @Service
@@ -24,32 +29,133 @@ public class QuizService {
 
     private final WordService wordService;
 
-    public QuizService(QuizRepository quizRepository, WordService wordService) {
+    private final WordHistoryRepository wordHistoryRepository;
+
+    public QuizService(QuizRepository quizRepository, WordService wordService, WordHistoryRepository wordHistoryRepository) {
         this.quizRepository = quizRepository;
         this.wordService = wordService;
+        this.wordHistoryRepository = wordHistoryRepository;
     }
 
+    /*
+    CRUD METHODS
+     */
+
+    /**
+     * Method which search a quiz by ID
+     * @param quizId id of the quiz you search for
+     * @return quiz
+     */
+    public Quiz findById (Integer quizId){
+        logger.info("search in repository for quiz with id : "+quizId);
+        return quizRepository.findById(quizId).orElseThrow(() -> new NoSuchElementException("quiz with following id not found : " + quizId));
+    }
+
+
+
+    /*
+        METHODS FOR QUIZ CREATION
+     */
+
+    /**
+     * Method which create a quiz
+     * @param nrOfWords nr of questions you want
+     * @param wordLevelList level of the quiz
+     * @return a created quiz, with the nr of words you want & without answers
+     */
     public Quiz takeQuiz(Integer nrOfWords, List<Word.WordLevel> wordLevelList){
-        //TODO REFACTOR with 2 sub methods
-        Random random = new Random();
+        logger.info("create quiz with : " + nrOfWords + "questions, and levels : " + wordLevelList.toString());
+        List<Word> possibleWords = findQuizWords(wordLevelList);
+        List<Word> wordList = pickRandomWord(nrOfWords,possibleWords);
+        Quiz quiz =  new Quiz()
+                .words(wordList)
+                .userId(1);//TODO: get current userId
+        return quizRepository.save(quiz);
+    }
+
+    /**
+     * Method which search for wordss which may fit for the quiz
+     * @param wordLevelList List of wordLevel you want to include in the quiz
+     * @return List of words who can fit for the quiz
+     */
+    private List<Word> findQuizWords(List<Word.WordLevel> wordLevelList){
         if(!wordLevelList.contains(Word.WordLevel.NEW))
             wordLevelList.add(Word.WordLevel.NEW);
         WordCriteria wordCriteria = new WordCriteria()
                 .status(Collections.singletonList(Word.WordStatus.ACITVE))
                 .level(wordLevelList)
                 .userId(1);//TODO: get current userId
-        List<Word> possibleWords = wordService.getAllByCriteria(wordCriteria);
+        return  wordService.getAllByCriteria(wordCriteria);
+    }
 
+    /**
+     * Method which pick up random words from a list of words
+     * @param nrOfWords nr of words you want
+     * @param possibleWords list of words which may fit, list where the words will be picked
+     * @return list of random words from the list
+     */
+    private List<Word> pickRandomWord(Integer nrOfWords, List<Word> possibleWords){
+        Random random = new Random();
         List<Word> wordList = new ArrayList<>();
         for(int i = 0 ; i < nrOfWords ; i++){
             int randomIndex = random.nextInt(possibleWords.size());
             wordList.add(possibleWords.get(randomIndex));
             possibleWords.remove(randomIndex);
         }
-
-        Quiz quiz =  new Quiz()
-                .words(wordList)
-                .userId(1);//TODO: get current userId
-        return quizRepository.save(quiz);
+        return wordList;
     }
+
+
+    /*
+        METHODS FOR ANSWER QUIZ
+     */
+
+    /**
+     * Method which submit a quiz
+     * @param quizId id of the quiz you answer
+     * @param answerDtoList list of answers
+     * @return filled quiz with result
+     */
+    public Quiz submitQuiz(Integer quizId, List<AnswerDto> answerDtoList){
+        logger.info("submit quiz with id : " + quizId);
+        Quiz quiz = findById(quizId);
+        if(quiz.getWords().size() != answerDtoList.size()){
+            logger.error("the nr of answers do not correspond to the nr of questions");
+            throw new RuntimeException();//TODO custom exception
+        }
+        List<Answer> answerList = new ArrayList<>();
+        int correctCounter = 0;
+
+        for(AnswerDto answerDto : answerDtoList){
+            Word word = quiz.getWords()
+                    .stream()
+                    .filter(w -> w.getBasicWord().equals(answerDto.getBasicWord()))
+                    .findFirst()
+                    .orElseThrow(() -> new NoSuchElementException("basic word not found in quiz"));
+
+            Answer answer = new Answer()
+                    .answer(answerDto.getAnswer())
+                    .word(word)
+                    .userId(1);//TODO: get current userId
+
+            if(word.getTranslation().equals(answerDto.getAnswer())){
+                correctCounter++;
+                answer.result(true);
+            }
+            answerList.add(answer);
+            createWordHistory(quiz,answer);
+        }
+        return quiz.answers(answerList).score(correctCounter);
+    }
+
+    /**
+     * Method which create a word history
+     * @param quiz where the word was asked
+     * @param answer provided answer
+     */
+    private void createWordHistory(Quiz quiz, Answer answer){
+        WordHistory wordHistory = new WordHistory().quiz(quiz).answer(answer);
+        wordHistoryRepository.save(wordHistory);
+    }
+
 }

@@ -9,7 +9,7 @@ import javax.persistence.OneToMany;
 
 import com.woquiz.word.model.Word;
 
-public class Quiz {
+public class  Quiz {
 
     @Id
     @Column(name = "ID")
@@ -35,6 +35,11 @@ public class Quiz {
         this.id = id;
     }
 
+    public Quiz id(Integer id){
+        setId(id);
+        return this;
+    }
+
     public List<Word> getWords() {
         return words;
     }
@@ -56,12 +61,22 @@ public class Quiz {
         this.answers = answers;
     }
 
+    public Quiz answers(List<Answer> answers){
+        setAnswers(answers);
+        return this;
+    }
+
     public Integer getScore() {
         return score;
     }
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public Quiz score (Integer score){
+        setScore(score);
+        return this;
     }
 
     public Integer getUserId() {
