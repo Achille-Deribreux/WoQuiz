@@ -1,6 +1,6 @@
 package com.woquiz.quiz.dto;
 
-public class AnswerDto {
+public class AnswerBody {
 
     private String basicWord;
     private String answer;

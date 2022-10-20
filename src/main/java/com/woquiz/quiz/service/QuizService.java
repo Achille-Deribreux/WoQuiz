@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.woquiz.quiz.dto.AnswerDto;
+import com.woquiz.quiz.dto.AnswerBody;
 import com.woquiz.quiz.model.Answer;
 import com.woquiz.quiz.model.Quiz;
 import com.woquiz.quiz.repository.QuizRepository;
@@ -31,6 +31,8 @@ public class QuizService {
 
     private final WordHistoryRepository wordHistoryRepository;
 
+    private final Random random = new Random();
+
     public QuizService(QuizRepository quizRepository, WordService wordService, WordHistoryRepository wordHistoryRepository) {
         this.quizRepository = quizRepository;
         this.wordService = wordService;
@@ -47,7 +49,7 @@ public class QuizService {
      * @return quiz
      */
     public Quiz findById (Integer quizId){
-        logger.info("search in repository for quiz with id : "+quizId);
+        logger.info("search in repository for quiz with id : {}" , quizId);
         return quizRepository.findById(quizId).orElseThrow(() -> new NoSuchElementException("quiz with following id not found : " + quizId));
     }
 
@@ -64,7 +66,7 @@ public class QuizService {
      * @return a created quiz, with the nr of words you want & without answers
      */
     public Quiz takeQuiz(Integer nrOfWords, List<Word.WordLevel> wordLevelList){
-        logger.info("create quiz with : " + nrOfWords + "questions, and levels : " + wordLevelList.toString());
+        logger.info("create quiz with : {} questions, and levels : {} ", nrOfWords, wordLevelList.toString());
         List<Word> possibleWords = findQuizWords(wordLevelList);
         List<Word> wordList = pickRandomWord(nrOfWords,possibleWords);
         Quiz quiz =  new Quiz()
@@ -95,7 +97,6 @@ public class QuizService {
      * @return list of random words from the list
      */
     private List<Word> pickRandomWord(Integer nrOfWords, List<Word> possibleWords){
-        Random random = new Random();
         List<Word> wordList = new ArrayList<>();
         for(int i = 0 ; i < nrOfWords ; i++){
             int randomIndex = random.nextInt(possibleWords.size());
@@ -116,8 +117,8 @@ public class QuizService {
      * @param answerDtoList list of answers
      * @return filled quiz with result
      */
-    public Quiz submitQuiz(Integer quizId, List<AnswerDto> answerDtoList){
-        logger.info("submit quiz with id : " + quizId);
+    public Quiz submitQuiz(Integer quizId, List<AnswerBody> answerDtoList){
+        logger.info("submit quiz with id : {}", quizId);
         Quiz quiz = findById(quizId);
         if(quiz.getWords().size() != answerDtoList.size()){
             logger.error("the nr of answers do not correspond to the nr of questions");
@@ -126,7 +127,7 @@ public class QuizService {
         List<Answer> answerList = new ArrayList<>();
         int correctCounter = 0;
 
-        for(AnswerDto answerDto : answerDtoList){
+        for(AnswerBody answerDto : answerDtoList){
             Word word = quiz.getWords()
                     .stream()
                     .filter(w -> w.getBasicWord().equals(answerDto.getBasicWord()))
