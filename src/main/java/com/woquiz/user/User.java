@@ -24,9 +24,6 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "LAST_WORD_LEVEL_UPDATE")
-    private LocalDate lastWordLevelUpdate;
-
     public Integer getId() {
         return id;
     }
@@ -64,19 +61,6 @@ public class User {
 
     public User password(String password) {
         setPassword(password);
-        return this;
-    }
-
-    public LocalDate getLastWordLevelUpdate() {
-        return lastWordLevelUpdate;
-    }
-
-    public void setLastWordLevelUpdate(LocalDate lastWordLevelUpdate) {
-        this.lastWordLevelUpdate = lastWordLevelUpdate;
-    }
-
-    public User lastWordLevelUpdate(LocalDate lastWordLevelUpdate){
-        setLastWordLevelUpdate(lastWordLevelUpdate);
         return this;
     }
 }

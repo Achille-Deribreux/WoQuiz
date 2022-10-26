@@ -16,7 +16,6 @@ import com.woquiz.quiz.dto.QuizCriteria;
 import com.woquiz.quiz.model.Answer;
 import com.woquiz.quiz.model.Quiz;
 import com.woquiz.quiz.repository.QuizRepository;
-import com.woquiz.user.User;
 import com.woquiz.user.service.UserService;
 import com.woquiz.word.dto.WordCriteria;
 import com.woquiz.word.model.Word;
@@ -150,17 +149,19 @@ public class QuizService {
                     .filter(w -> w.getBasicWord().equals(answerDto.getBasicWord()))
                     .findFirst()
                     .orElseThrow(() -> new NoSuchElementException("basic word not found in quiz"));
-
+            word.increaseNrAsked();
             Answer answer = new Answer()
                     .answer(answerDto.getAnswer())
                     .word(word)
                     .userId(1);//TODO: get current userId
 
             if(word.getTranslation().equals(answerDto.getAnswer())){
+                word.increaseGoodAnswers();
                 correctCounter++;
                 answer.result(true);
             }
             answerList.add(answer);
+            wordService.updateWordLevel(word);
             createWordHistory(quiz,answer);
         }
         return quiz.answers(answerList).score(correctCounter).attemptDate(LocalDate.now());
@@ -175,14 +176,4 @@ public class QuizService {
         WordHistory wordHistory = new WordHistory().quiz(quiz).answer(answer);
         wordHistoryRepository.save(wordHistory);
     }
-
-    public void updateWordLevel(){
-        User currentUser = userService.getByUsername("");//TODO: get current
-        QuizCriteria quizCriteria = new QuizCriteria()
-                .attemptDateAfter(currentUser.getLastWordLevelUpdate())
-                .userId(currentUser.getId());
-        List<Quiz> quizzes = getAllByCriteria(quizCriteria);
-        //TODO TBC
-    }
-
 }
