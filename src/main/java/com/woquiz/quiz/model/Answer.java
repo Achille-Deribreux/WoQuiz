@@ -3,6 +3,8 @@ package com.woquiz.quiz.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -16,7 +18,8 @@ public class Answer {
     @Column(name = "ID")
     private Integer id;
 
-    @OneToOne(mappedBy = "id")
+    @ManyToOne
+    @JoinColumn(name = "WORD_ID")
     private Word word;
 
     @Column(name = "ANSWER")

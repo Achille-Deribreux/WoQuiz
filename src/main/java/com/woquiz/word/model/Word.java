@@ -128,11 +128,21 @@ public class Word {
         this.nrAsked ++;
     }
 
+    public Word nrAsked(Integer nrAsked){
+        this.nrAsked = nrAsked;
+        return this;
+    }
+
     public Integer getNrGoodAnswers() {
         return nrGoodAnswers;
     }
 
     public void increaseGoodAnswers() {
         this.nrGoodAnswers ++;
+    }
+
+    public Word nrGoodAnswers(Integer nrGoodAnswers){
+        this.nrGoodAnswers = nrGoodAnswers;
+        return this;
     }
 }
