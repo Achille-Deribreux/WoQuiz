@@ -1,12 +1,31 @@
 package com.woquiz.word.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import com.woquiz.quiz.model.Answer;
 import com.woquiz.quiz.model.Quiz;
 
+@Entity
+@Table(name = "WORD_HISTORY")
 public class WordHistory {
 
+    @Id
+    @Column(name = "ID")
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "QUIZ_ID")
     private Quiz quiz;
+
+    @OneToOne
+    @JoinColumn(name = "ANSWER_ID")
     private Answer answer;
 
     public Integer getId() {

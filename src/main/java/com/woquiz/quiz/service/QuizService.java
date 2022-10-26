@@ -1,5 +1,6 @@
 package com.woquiz.quiz.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,9 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.woquiz.quiz.dto.AnswerBody;
+import com.woquiz.quiz.dto.QuizCriteria;
 import com.woquiz.quiz.model.Answer;
 import com.woquiz.quiz.model.Quiz;
 import com.woquiz.quiz.repository.QuizRepository;
+import com.woquiz.user.service.UserService;
 import com.woquiz.word.dto.WordCriteria;
 import com.woquiz.word.model.Word;
 import com.woquiz.word.model.WordHistory;
@@ -31,12 +34,15 @@ public class QuizService {
 
     private final WordHistoryRepository wordHistoryRepository;
 
+    private final UserService userService;
+
     private final Random random = new Random();
 
-    public QuizService(QuizRepository quizRepository, WordService wordService, WordHistoryRepository wordHistoryRepository) {
+    public QuizService(QuizRepository quizRepository, WordService wordService, WordHistoryRepository wordHistoryRepository,UserService userService) {
         this.quizRepository = quizRepository;
         this.wordService = wordService;
         this.wordHistoryRepository = wordHistoryRepository;
+        this.userService = userService;
     }
 
     /*
@@ -51,6 +57,16 @@ public class QuizService {
     public Quiz findById (Integer quizId){
         logger.info("search in repository for quiz with id : {}" , quizId);
         return quizRepository.findById(quizId).orElseThrow(() -> new NoSuchElementException("quiz with following id not found : " + quizId));
+    }
+
+    /**
+     * Method which search for quiz based on criteria
+     * @param quizCriteria criteria you want to base your research
+     * @return list of quiz that match the criteria
+     */
+    public List<Quiz> getAllByCriteria(QuizCriteria quizCriteria){
+        logger.info("search in repository to find quiz by criteria");
+        return quizRepository.findByCriteria(quizCriteria);
     }
 
 
@@ -71,7 +87,7 @@ public class QuizService {
         List<Word> wordList = pickRandomWord(nrOfWords,possibleWords);
         Quiz quiz =  new Quiz()
                 .words(wordList)
-                .userId(1);//TODO: get current userId
+                .user(userService.getByUsername("a"));//TODO: get current userId
         return quizRepository.save(quiz);
     }
 
@@ -133,20 +149,22 @@ public class QuizService {
                     .filter(w -> w.getBasicWord().equals(answerDto.getBasicWord()))
                     .findFirst()
                     .orElseThrow(() -> new NoSuchElementException("basic word not found in quiz"));
-
+            word.increaseNrAsked();
             Answer answer = new Answer()
                     .answer(answerDto.getAnswer())
                     .word(word)
                     .userId(1);//TODO: get current userId
 
             if(word.getTranslation().equals(answerDto.getAnswer())){
+                word.increaseGoodAnswers();
                 correctCounter++;
                 answer.result(true);
             }
             answerList.add(answer);
+            wordService.updateWordLevel(word);
             createWordHistory(quiz,answer);
         }
-        return quiz.answers(answerList).score(correctCounter);
+        return quiz.answers(answerList).score(correctCounter).attemptDate(LocalDate.now());
     }
 
     /**
@@ -158,5 +176,4 @@ public class QuizService {
         WordHistory wordHistory = new WordHistory().quiz(quiz).answer(answer);
         wordHistoryRepository.save(wordHistory);
     }
-
 }

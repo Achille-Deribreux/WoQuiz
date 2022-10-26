@@ -1,14 +1,22 @@
 package com.woquiz.quiz.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+import com.woquiz.user.User;
 import com.woquiz.word.model.Word;
 
+@Entity
+@Table(name = "QUIZ")
 public class  Quiz {
 
     @Id
@@ -24,8 +32,12 @@ public class  Quiz {
     @Column(name = "SCORE")
     private Integer score;
 
-    @Column(name = "USER_ID")
-    private Integer userId;
+    @ManyToOne
+    @JoinColumn(name="USER_ID", nullable=false)
+    private User user;
+
+    @Column(name = "ATTEMPT_DATE")
+    private LocalDate attemptDate;
 
     public Integer getId() {
         return id;
@@ -79,16 +91,29 @@ public class  Quiz {
         return this;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Quiz userId(Integer userId){
-        setUserId(userId);
+    public Quiz user(User user){
+        setUser(user);
+        return this;
+    }
+
+    public LocalDate getAttemptDate() {
+        return attemptDate;
+    }
+
+    public void setAttemptDate(LocalDate attemptDate) {
+        this.attemptDate = attemptDate;
+    }
+
+    public Quiz attemptDate(LocalDate attemptDate){
+        setAttemptDate(attemptDate);
         return this;
     }
 }

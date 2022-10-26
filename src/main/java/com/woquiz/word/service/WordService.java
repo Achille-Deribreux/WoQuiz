@@ -74,4 +74,25 @@ public class WordService {
         logger.info("delete word with basic word {}" , word.getBasicWord());
         wordRepository.delete(word);
     }
+
+    /**
+     * Method wich updates the level of a word based on how many times it was asked/good answered
+     * @param word word to update
+     */
+    public Word updateWordLevel(Word word) {
+        logger.info("try to update level for word : {}, asked : {}", word.getId(), word.getNrAsked());
+        if (word.getNrAsked() < 5) {
+            logger.info("not enough nrAsked for word : {}", word.getId());
+            return word;
+        }
+        logger.info("update level of word : {}", word.getId());
+        float ratio = (float) word.getNrGoodAnswers() / (float) word.getNrAsked();
+        if (ratio < 0.4)
+            word.setLevel(Word.WordLevel.HARD);
+        else if (ratio < 0.7)
+            word.setLevel(Word.WordLevel.MEDIUM);
+        else
+            word.setLevel(Word.WordLevel.EASY);
+        return wordRepository.save(word);
+    }
 }

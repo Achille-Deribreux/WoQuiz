@@ -111,4 +111,64 @@ public class WordServiceUTest {
         //Then
         Mockito.verify(wordRepository,Mockito.times(1)).delete(word);
     }
+
+    @Test
+    @Tag("word")
+    @DisplayName("test to update a wordLevel, with a word that never has been asked")
+    void updateWordLevelNoUpdateTest() {
+        //Given
+        Word word = EntityBuilder.getWord();
+        //When
+        wordService.updateWordLevel(word);
+        //Then
+        Mockito.verifyNoInteractions(wordRepository);
+    }
+
+    @Test
+    @Tag("word")
+    @DisplayName("test to update a wordLevel with a word that should have HARD level")
+    void updateWordLevelHardTest() {
+        //Given
+        Word word = EntityBuilder.getWord()
+                .nrAsked(10)
+                .nrGoodAnswers(2)
+                .level(Word.WordLevel.NEW);
+        //When
+        Mockito.when(wordRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+        Word result = wordService.updateWordLevel(word);
+        //Then
+        Assertions.assertEquals(Word.WordLevel.HARD,result.getLevel());
+    }
+
+    @Test
+    @Tag("word")
+    @DisplayName("test to update a wordLevel with a word that should have Medium level")
+    void updateWordLevelMediumTest() {
+        //Given
+        Word word = EntityBuilder.getWord()
+                .nrAsked(10)
+                .nrGoodAnswers(6)
+                .level(Word.WordLevel.NEW);
+        //When
+        Mockito.when(wordRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+        Word result = wordService.updateWordLevel(word);
+        //Then
+        Assertions.assertEquals(Word.WordLevel.MEDIUM,result.getLevel());
+    }
+
+    @Test
+    @Tag("word")
+    @DisplayName("test to update a wordLevel with a word that should have Easy level")
+    void updateWordLevelEasyTest() {
+        //Given
+        Word word = EntityBuilder.getWord()
+                .nrAsked(10)
+                .nrGoodAnswers(8)
+                .level(Word.WordLevel.NEW);
+        //When
+        Mockito.when(wordRepository.save(Mockito.any())).thenAnswer(i -> i.getArguments()[0]);
+        Word result = wordService.updateWordLevel(word);
+        //Then
+        Assertions.assertEquals(Word.WordLevel.EASY,result.getLevel());
+    }
 }

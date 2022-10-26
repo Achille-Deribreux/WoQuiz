@@ -28,6 +28,12 @@ public class Word {
     @Column(name="USER_ID")
     private Integer userId;
 
+    @Column(name = "NR_ASKED")
+    private Integer nrAsked = 0;
+
+    @Column(name = "NR_GOOD_ANSWERS")
+    private Integer nrGoodAnswers = 0;
+
     public enum WordStatus {
         ACITVE, INACTIVE
     }
@@ -111,6 +117,32 @@ public class Word {
 
     public Word userId(Integer userId){
         setUserId(userId);
+        return this;
+    }
+
+    public Integer getNrAsked() {
+        return nrAsked;
+    }
+
+    public void increaseNrAsked() {
+        this.nrAsked ++;
+    }
+
+    public Word nrAsked(Integer nrAsked){
+        this.nrAsked = nrAsked;
+        return this;
+    }
+
+    public Integer getNrGoodAnswers() {
+        return nrGoodAnswers;
+    }
+
+    public void increaseGoodAnswers() {
+        this.nrGoodAnswers ++;
+    }
+
+    public Word nrGoodAnswers(Integer nrGoodAnswers){
+        this.nrGoodAnswers = nrGoodAnswers;
         return this;
     }
 }
