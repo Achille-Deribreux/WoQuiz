@@ -152,8 +152,8 @@ public class QuizService {
             word.increaseNrAsked();
             Answer answer = new Answer()
                     .answer(answerDto.getAnswer())
-                    .word(word)
-                    .userId(1);//TODO: get current userId
+                    .word(word);
+                    //TODO: get current userId
 
             if(word.getTranslation().equals(answerDto.getAnswer())){
                 word.increaseGoodAnswers();

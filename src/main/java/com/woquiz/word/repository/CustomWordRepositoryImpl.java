@@ -27,10 +27,11 @@ public class CustomWordRepositoryImpl implements CustomWordRepository{
         CriteriaQuery<Word> criteriaQuery = criteriaBuilder.createQuery(Word.class);
         BasicUtils.ConditionalList<Predicate> conditionalList = BasicUtils.ConditionalList.of(new ArrayList<>());
         Root<Word> wordRoot = criteriaQuery.from(Word.class);
+//        Join<Word, BaseEntity> baseEntityJoin = wordRoot.join("id", JoinType.LEFT);
         conditionalList
                 .add(wordCriteria.getBasicWordContains()!=null,()->criteriaBuilder.like((criteriaBuilder.upper(wordRoot.get("basicWord"))),toLike(wordCriteria.getBasicWordContains().toUpperCase())))
                 .add(wordCriteria.getTranslationContains()!=null,()->criteriaBuilder.like((criteriaBuilder.upper(wordRoot.get("translation"))),toLike(wordCriteria.getTranslationContains().toUpperCase())))
-                .add(wordCriteria.getUserId()!=null,()->criteriaBuilder.equal(wordRoot.get("userId"),wordCriteria.getUserId()))
+                .add(wordCriteria.getUserId()!=null,()->criteriaBuilder.equal(wordRoot.get("user"),wordCriteria.getUserId()))
                 .add(wordCriteria.getStatus()!=null,()-> wordRoot.get("status").in(wordCriteria.getStatus()))
                 .add(wordCriteria.getLevel()!=null,()-> wordRoot.get("level").in(wordCriteria.getLevel()));
         criteriaQuery.where(conditionalList.toList().toArray(new Predicate[0]));

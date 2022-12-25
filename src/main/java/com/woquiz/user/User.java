@@ -22,6 +22,9 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
+    @Column(name = "EMAIL")
+    private String email;
+
     public Integer getId() {
         return id;
     }
@@ -59,6 +62,19 @@ public class User {
 
     public User password(String password) {
         setPassword(password);
+        return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public User email(String email) {
+        setEmail(email);
         return this;
     }
 }

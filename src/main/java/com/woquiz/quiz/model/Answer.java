@@ -8,15 +8,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.woquiz.user.BaseEntity;
 import com.woquiz.word.model.Word;
 
 @Entity
-@Table(name = "answer")
-public class Answer {
-
-    @Id
-    @Column(name = "ID")
-    private Integer id;
+@Table(name = "ANSWER")
+public class Answer extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "WORD_ID")
@@ -28,16 +25,9 @@ public class Answer {
     @Column(name = "RESULT")
     private boolean result = false;
 
-    @Column(name = "USER_ID")
-    private Integer userId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @ManyToOne
+    @JoinColumn( name="QUIZ_ID", nullable=false )
+    private Quiz quiz;
 
     public Answer id(Integer id){
         setId(id);
@@ -83,16 +73,11 @@ public class Answer {
         return this;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Quiz getQuiz() {
+        return quiz;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Answer userId(Integer userId){
-        setUserId(userId);
-        return this;
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
     }
 }

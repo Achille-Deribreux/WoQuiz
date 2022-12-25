@@ -1,5 +1,6 @@
 package com.woquiz;
 
+import com.woquiz.user.User;
 import com.woquiz.word.model.Word;
 
 public class EntityBuilder {
@@ -13,7 +14,7 @@ public class EntityBuilder {
                 .translation("hello")
                 .wordStatus(Word.WordStatus.ACITVE)
                 .level(Word.WordLevel.NEW)
-                .userId(1);
+                .user(getUser());
     }
 
     public static Word getAnotherWord(){
@@ -23,6 +24,22 @@ public class EntityBuilder {
                 .translation("Bonjour, je suis John Doe")
                 .wordStatus(Word.WordStatus.INACTIVE)
                 .level(Word.WordLevel.EASY)
-                .userId(2);
+                .user(getAnotherUser());
+    }
+
+    public static User getUser(){
+        return new User()
+                .id(1)
+                .username("username1")
+                .password("xxx")
+                .email("user@1.be");
+    }
+
+    public static User getAnotherUser(){
+        return new User()
+                .id(2)
+                .username("username2")
+                .password("yyy")
+                .email("user@2.be");
     }
 }

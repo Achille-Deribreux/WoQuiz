@@ -6,46 +6,29 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.woquiz.user.BaseEntity;
 import com.woquiz.user.User;
 import com.woquiz.word.model.Word;
 
 @Entity
 @Table(name = "QUIZ")
-public class  Quiz {
-
-    @Id
-    @Column(name = "ID")
-    private Integer id;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
-    private List<Word> words;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
-    private List<Answer> answers;
+public class Quiz extends BaseEntity {
 
     @Column(name = "SCORE")
     private Integer score;
 
-    @ManyToOne
-    @JoinColumn(name="USER_ID", nullable=false)
-    private User user;
-
     @Column(name = "ATTEMPT_DATE")
     private LocalDate attemptDate;
 
-    public Integer getId() {
-        return id;
-    }
+    @ManyToMany(mappedBy = "quizzes")
+    private List<Word> words;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "quiz")
+    private List<Answer> answers;
 
     public Quiz id(Integer id){
         setId(id);
@@ -89,14 +72,6 @@ public class  Quiz {
     public Quiz score (Integer score){
         setScore(score);
         return this;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Quiz user(User user){

@@ -13,21 +13,30 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.woquiz.EntityBuilder;
+import com.woquiz.user.User;
+import com.woquiz.user.repository.UserRepository;
 import com.woquiz.word.dto.WordCriteria;
 import com.woquiz.word.model.Word;
 
 @DataJpaTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class WordRepositoryUTest {
+class WordRepositoryUTest {
 
     @Autowired
     private WordRepository wordRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     Word wordOne;
     Word wordTwo;
+    User userOne;
+    User userTwo;
 
     @BeforeEach
     void setUp() {
+        userOne = userRepository.save(EntityBuilder.getUser());
+        userTwo = userRepository.save(EntityBuilder.getAnotherUser());
         wordOne = wordRepository.save(EntityBuilder.getWord());
         wordTwo = wordRepository.save(EntityBuilder.getAnotherWord());
     }
@@ -92,7 +101,7 @@ public class WordRepositoryUTest {
         //When
         List<Word> wordList = wordRepository.findByCriteria(criteria);
         //Then
-        Assertions.assertEquals(wordTwo.getUserId(),wordList.get(0).getUserId());
+        Assertions.assertEquals(wordTwo.getUser().getId(),wordList.get(0).getUser().getId());
         Assertions.assertEquals(wordTwo.getBasicWord(),wordList.get(0).getBasicWord());
     }
 }

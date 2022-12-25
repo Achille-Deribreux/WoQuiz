@@ -1,32 +1,32 @@
 package com.woquiz.word.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.woquiz.quiz.model.Quiz;
+import com.woquiz.user.BaseEntity;
+import com.woquiz.user.User;
 
 @Entity
 @Table(name = "word")
-public class Word {
+public class Word extends BaseEntity {
 
-    @Id
-    @Column(name="ID")
-    private Integer id;
-
-    @Column(name="BASIC_WORD")
+    @Column(name = "BASIC_WORD")
     private String basicWord;
 
-    @Column(name="TRANSLATION")
+    @Column(name = "TRANSLATION")
     private String translation;
 
-    @Column(name="STATUS")
+    @Column(name = "STATUS")
     private WordStatus status;
 
-    @Column(name="LEVEL")
+    @Column(name = "LEVEL")
     private WordLevel level;
-
-    @Column(name="USER_ID")
-    private Integer userId;
 
     @Column(name = "NR_ASKED")
     private Integer nrAsked = 0;
@@ -34,20 +34,15 @@ public class Word {
     @Column(name = "NR_GOOD_ANSWERS")
     private Integer nrGoodAnswers = 0;
 
+    @ManyToMany
+    private List<Quiz> quizzes;
+
     public enum WordStatus {
         ACITVE, INACTIVE
     }
 
     public enum WordLevel {
         NEW, EASY, MEDIUM, HARD
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Word id(Integer id){
@@ -107,19 +102,6 @@ public class Word {
         return this;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Word userId(Integer userId){
-        setUserId(userId);
-        return this;
-    }
-
     public Integer getNrAsked() {
         return nrAsked;
     }
@@ -143,6 +125,11 @@ public class Word {
 
     public Word nrGoodAnswers(Integer nrGoodAnswers){
         this.nrGoodAnswers = nrGoodAnswers;
+        return this;
+    }
+
+    public Word user (User user){
+        setUser(user);
         return this;
     }
 }

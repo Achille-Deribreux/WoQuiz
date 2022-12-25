@@ -83,8 +83,7 @@ public class WordServiceUTest {
                 .basicWord("updated basicWord")
                 .translation("updated translation")
                 .wordStatus(Word.WordStatus.INACTIVE)
-                .level(Word.WordLevel.HARD)
-                .userId(2);
+                .level(Word.WordLevel.HARD);
 
         //When
         Mockito.when(wordRepository.findById(initialWord.getId())).thenReturn(Optional.ofNullable(initialWord));
@@ -96,7 +95,6 @@ public class WordServiceUTest {
         Assertions.assertEquals(body.getTranslation(),result.getTranslation());
         Assertions.assertEquals(body.getLevel(),result.getLevel());
         Assertions.assertEquals(body.getStatus(),result.getStatus());
-        Assertions.assertEquals(body.getUserId(),result.getUserId());
 
     }
 

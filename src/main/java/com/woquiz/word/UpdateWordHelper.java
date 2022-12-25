@@ -48,20 +48,12 @@ public final class UpdateWordHelper {
         return this;
     }
 
-    public UpdateWordHelper userId(Integer userId) {
-        if(userId != null && !userId.equals(word.getUserId())){
-            word.setUserId(userId);
-        }
-        return this;
-    }
-
     public Word build(Word wordBody) {
        this
            .basicWord(wordBody.getBasicWord())
            .translation(wordBody.getTranslation())
            .status(wordBody.getStatus())
-           .level(wordBody.getLevel())
-           .userId(wordBody.getUserId());
+           .level(wordBody.getLevel());
        return word;
     }
 }
