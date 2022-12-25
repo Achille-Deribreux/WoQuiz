@@ -9,6 +9,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.woquiz.user.BaseEntity;
+import com.woquiz.user.User;
 import com.woquiz.word.model.Word;
 
 @Entity
@@ -79,5 +80,10 @@ public class Answer extends BaseEntity {
 
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
+    }
+
+    public Answer user(User user){
+        setUser(user);
+        return this;
     }
 }
