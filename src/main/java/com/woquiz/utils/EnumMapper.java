@@ -1,4 +1,4 @@
-package com.woquiz.common.utils;
+package com.woquiz.utils;
 
 import java.util.HashMap;
 import java.util.Map;

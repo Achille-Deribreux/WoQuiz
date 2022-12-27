@@ -1,4 +1,4 @@
-package com.woquiz.common.utils;
+package com.woquiz.utils;
 
 import java.util.List;
 import java.util.function.Supplier;

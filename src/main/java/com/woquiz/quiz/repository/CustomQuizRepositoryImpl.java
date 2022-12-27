@@ -13,7 +13,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import com.woquiz.common.utils.BasicUtils;
+import com.woquiz.utils.BasicUtils;
 import com.woquiz.quiz.dto.QuizCriteria;
 import com.woquiz.quiz.model.Quiz;
 import com.woquiz.user.User;

@@ -11,7 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import com.woquiz.common.utils.BasicUtils;
+import com.woquiz.utils.BasicUtils;
 import com.woquiz.word.dto.WordCriteria;
 import com.woquiz.word.model.Word;
 
