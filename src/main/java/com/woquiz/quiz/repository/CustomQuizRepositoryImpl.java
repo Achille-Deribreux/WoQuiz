@@ -3,10 +3,12 @@ package com.woquiz.quiz.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.woquiz.common.BaseEntity_;
+import com.woquiz.user.model.User_;
 import com.woquiz.utils.BasicUtils;
 import com.woquiz.quiz.dto.QuizCriteria;
 import com.woquiz.quiz.model.Quiz;
-import com.woquiz.user.User;
+import com.woquiz.user.model.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -28,12 +30,12 @@ public class CustomQuizRepositoryImpl implements CustomQuizRepository{
         CriteriaQuery<Quiz> criteriaQuery = criteriaBuilder.createQuery(Quiz.class);
         BasicUtils.ConditionalList<Predicate> conditionalList = BasicUtils.ConditionalList.of(new ArrayList<>());
         Root<Quiz> quizRoot = criteriaQuery.from(Quiz.class);
-        Join<Quiz, User> userJoin = quizRoot.join("user", JoinType.LEFT);
+        Join<Quiz, User> userJoin = quizRoot.join(BaseEntity_.USER, JoinType.LEFT);
         conditionalList
-                .add(quizCriteria.getUserId()!=null,()->criteriaBuilder.equal(userJoin.get("id"),quizCriteria.getUserId()))
-                .add(quizCriteria.getAttemptDateAfter()!=null,()->criteriaBuilder.lessThanOrEqualTo(quizRoot.get("attemptDate"),quizCriteria.getAttemptDateAfter()));
+                .add(quizCriteria.getUserId()!=null,()->criteriaBuilder.equal(userJoin.get(User_.ID),quizCriteria.getUserId()))
+                .add(quizCriteria.getAttemptDateAfter()!=null,()->criteriaBuilder.lessThanOrEqualTo(quizRoot.get(BaseEntity_.ID),quizCriteria.getAttemptDateAfter()));
         criteriaQuery.where(conditionalList.toList().toArray(new Predicate[0]));
-        criteriaQuery.orderBy(criteriaBuilder.desc(quizRoot.get("id")));
+        criteriaQuery.orderBy(criteriaBuilder.desc(quizRoot.get(BaseEntity_.ID)));
         TypedQuery<Quiz> query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();
     }

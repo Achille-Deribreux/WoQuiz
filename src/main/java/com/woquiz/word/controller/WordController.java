@@ -19,6 +19,7 @@ import com.woquiz.word.dto.WordBody;
 import com.woquiz.word.dto.WordCriteria;
 import com.woquiz.word.dto.WordDto;
 import com.woquiz.word.model.Word;
+import com.woquiz.word.service.DefaultWordService;
 import com.woquiz.word.service.WordService;
 import com.woquiz.word.util.WordConverter;
 
@@ -30,7 +31,7 @@ public class WordController {
 
     private final WordService wordService;
 
-    public WordController(WordService wordService) {
+    public WordController(DefaultWordService wordService) {
         this.wordService = wordService;
     }
 

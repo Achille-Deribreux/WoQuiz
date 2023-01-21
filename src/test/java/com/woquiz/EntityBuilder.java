@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.woquiz.quiz.model.Answer;
 import com.woquiz.quiz.model.Quiz;
-import com.woquiz.user.User;
+import com.woquiz.user.model.User;
 import com.woquiz.word.model.Word;
 
 public class EntityBuilder {

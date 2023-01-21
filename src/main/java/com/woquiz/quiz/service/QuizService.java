@@ -16,12 +16,12 @@ import com.woquiz.quiz.dto.QuizCriteria;
 import com.woquiz.quiz.model.Answer;
 import com.woquiz.quiz.model.Quiz;
 import com.woquiz.quiz.repository.QuizRepository;
-import com.woquiz.user.service.UserService;
+import com.woquiz.user.service.DefaultUserService;
 import com.woquiz.word.dto.WordCriteria;
 import com.woquiz.word.model.Word;
 import com.woquiz.word.model.WordHistory;
 import com.woquiz.word.repository.WordHistoryRepository;
-import com.woquiz.word.service.WordService;
+import com.woquiz.word.service.DefaultWordService;
 
 @Service
 public class QuizService {
@@ -30,19 +30,19 @@ public class QuizService {
 
     private final QuizRepository quizRepository;
 
-    private final WordService wordService;
+    private final DefaultWordService wordService;
 
     private final WordHistoryRepository wordHistoryRepository;
 
-    private final UserService userService;
+    private final DefaultUserService defaultUserService;
 
     private final Random random = new Random();
 
-    public QuizService(QuizRepository quizRepository, WordService wordService, WordHistoryRepository wordHistoryRepository,UserService userService) {
+    public QuizService(QuizRepository quizRepository, DefaultWordService wordService, WordHistoryRepository wordHistoryRepository, DefaultUserService defaultUserService) {
         this.quizRepository = quizRepository;
         this.wordService = wordService;
         this.wordHistoryRepository = wordHistoryRepository;
-        this.userService = userService;
+        this.defaultUserService = defaultUserService;
     }
 
     /*
@@ -87,12 +87,12 @@ public class QuizService {
         List<Word> wordList = pickRandomWord(nrOfWords,possibleWords);
         Quiz quiz =  new Quiz()
                 .words(wordList)
-                .user(userService.getByUsername("a"));//TODO: get current userId
+                .user(defaultUserService.getByUsername("a"));//TODO: get current userId
         return quizRepository.save(quiz);
     }
 
     /**
-     * Method which search for wordss which may fit for the quiz
+     * Method which search for words which may fit for the quiz
      * @param wordLevelList List of wordLevel you want to include in the quiz
      * @return List of words who can fit for the quiz
      */

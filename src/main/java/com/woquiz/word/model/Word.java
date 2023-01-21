@@ -3,8 +3,8 @@ package com.woquiz.word.model;
 import java.util.List;
 
 import com.woquiz.quiz.model.Quiz;
-import com.woquiz.user.BaseEntity;
-import com.woquiz.user.User;
+import com.woquiz.common.BaseEntity;
+import com.woquiz.user.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;

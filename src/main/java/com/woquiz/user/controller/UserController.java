@@ -1,4 +1,4 @@
-package com.woquiz.user;
+package com.woquiz.user.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.woquiz.config.security.JwtUtil;
+import com.woquiz.user.dto.AuthenticationRequest;
+import com.woquiz.user.model.User;
+import com.woquiz.user.service.DefaultUserService;
 import com.woquiz.user.service.UserService;
 
 @RestController
@@ -23,10 +26,10 @@ public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
-    public UserController(AuthenticationManager manager, UserDetailsService userDetailsService, UserService userService, JwtUtil jwtUtil) {
+    public UserController(AuthenticationManager manager, UserDetailsService userDetailsService, DefaultUserService defaultUserService, JwtUtil jwtUtil) {
         this.manager = manager;
         this.userDetailsService = userDetailsService;
-        this.userService = userService;
+        this.userService = defaultUserService;
         this.jwtUtil = jwtUtil;
     }
 

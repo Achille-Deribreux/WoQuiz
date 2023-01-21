@@ -9,15 +9,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.woquiz.user.service.UserService;
+import com.woquiz.user.service.DefaultUserService;
 
 @Service
 public class DefaultDetailUserServiceImpl implements UserDetailsService {
 
-    private final UserService userService;
+    private final DefaultUserService defaultUserService;
 
-    public DefaultDetailUserServiceImpl(UserService userService) {
-        this.userService = userService;
+    public DefaultDetailUserServiceImpl(DefaultUserService defaultUserService) {
+        this.defaultUserService = defaultUserService;
     }
 
     @Override

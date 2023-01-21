@@ -3,8 +3,8 @@ package com.woquiz.quiz.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.woquiz.user.BaseEntity;
-import com.woquiz.user.User;
+import com.woquiz.common.BaseEntity;
+import com.woquiz.user.model.User;
 import com.woquiz.word.model.Word;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

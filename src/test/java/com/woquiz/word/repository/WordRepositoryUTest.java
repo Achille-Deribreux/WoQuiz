@@ -13,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.woquiz.EntityBuilder;
-import com.woquiz.user.User;
+import com.woquiz.user.model.User;
 import com.woquiz.user.repository.UserRepository;
 import com.woquiz.word.dto.WordCriteria;
 import com.woquiz.word.model.Word;

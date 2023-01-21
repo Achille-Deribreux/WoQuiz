@@ -1,4 +1,4 @@
-package com.woquiz.user;
+package com.woquiz.user.dto;
 
 public class AuthenticationRequest {
 

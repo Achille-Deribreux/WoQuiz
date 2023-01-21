@@ -17,9 +17,9 @@ import com.woquiz.EntityBuilder;
 import com.woquiz.quiz.dto.QuizCriteria;
 import com.woquiz.quiz.model.Quiz;
 import com.woquiz.quiz.repository.QuizRepository;
-import com.woquiz.user.service.UserService;
+import com.woquiz.user.service.DefaultUserService;
 import com.woquiz.word.repository.WordHistoryRepository;
-import com.woquiz.word.service.WordService;
+import com.woquiz.word.service.DefaultWordService;
 
 @SpringBootTest
 public class QuizServiceUTest {
@@ -28,13 +28,13 @@ public class QuizServiceUTest {
     QuizRepository quizRepository;
 
     @Mock
-    WordService wordService;
+    DefaultWordService wordService;
 
     @Mock
     WordHistoryRepository wordHistoryRepository;
 
     @Mock
-    UserService userService;
+    DefaultUserService defaultUserService;
 
     @InjectMocks
     QuizService quizService;

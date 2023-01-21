@@ -24,7 +24,7 @@ public class WordServiceUTest {
     WordRepository wordRepository;
 
     @InjectMocks
-    WordService wordService;
+    DefaultWordService wordService;
 
     @Test
     @Tag("word")

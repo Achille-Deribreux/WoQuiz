@@ -1,6 +1,7 @@
-package com.woquiz.user;
+package com.woquiz.common;
 
 
+import com.woquiz.user.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "BASE_ENTITY")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class BaseEntity {
 
     @Id
